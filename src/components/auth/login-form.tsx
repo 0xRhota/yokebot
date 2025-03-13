@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { useAuth } from "@/contexts/auth-context"
+import { useUser } from "@/lib/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -18,7 +18,7 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>
 
 export function LoginForm() {
-  const { signIn } = useAuth()
+  const { signIn } = useUser()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -39,7 +39,10 @@ export function LoginForm() {
     setError(null)
 
     try {
-      await signIn(data.email, data.password)
+      const { error } = await signIn(data.email, data.password)
+      if (error) {
+        setError(error.message || "Invalid email or password. Please try again.")
+      }
     } catch (err) {
       setError("Invalid email or password. Please try again.")
       console.error(err)
@@ -110,7 +113,20 @@ export function LoginForm() {
       <div className="text-center text-sm">
         <p className="text-muted-foreground">
           Don't have an account?{" "}
-          <Button variant="link" className="p-0 h-auto" type="button">
+          <Button 
+            variant="link" 
+            className="p-0 h-auto" 
+            type="button"
+            onClick={() => {
+              const tabsElement = document.querySelector('[role="tablist"]');
+              if (tabsElement) {
+                const signupTab = tabsElement.querySelector('[value="signup"]') as HTMLElement;
+                if (signupTab) {
+                  signupTab.click();
+                }
+              }
+            }}
+          >
             Sign up
           </Button>
         </p>

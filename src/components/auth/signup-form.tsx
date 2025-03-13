@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { useAuth } from "@/contexts/auth-context"
+import { useUser } from "@/lib/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -22,7 +22,7 @@ const signupSchema = z.object({
 type SignupFormValues = z.infer<typeof signupSchema>
 
 export function SignupForm() {
-  const { signUp } = useAuth()
+  const { signUp } = useUser()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
@@ -46,8 +46,12 @@ export function SignupForm() {
     setSuccess(null)
 
     try {
-      await signUp(data.email, data.password)
-      setSuccess("Check your email for a confirmation link to complete your registration.")
+      const { error } = await signUp(data.email, data.password)
+      if (error) {
+        setError(error.message || "Something went wrong. Please try again.")
+      } else {
+        setSuccess("Check your email for a confirmation link to complete your registration.")
+      }
     } catch (err: any) {
       setError(err.message || "Something went wrong. Please try again.")
       console.error(err)
@@ -136,7 +140,20 @@ export function SignupForm() {
       <div className="text-center text-sm">
         <p className="text-muted-foreground">
           Already have an account?{" "}
-          <Button variant="link" className="p-0 h-auto" type="button">
+          <Button 
+            variant="link" 
+            className="p-0 h-auto" 
+            type="button"
+            onClick={() => {
+              const tabsElement = document.querySelector('[role="tablist"]');
+              if (tabsElement) {
+                const loginTab = tabsElement.querySelector('[value="login"]') as HTMLElement;
+                if (loginTab) {
+                  loginTab.click();
+                }
+              }
+            }}
+          >
             Login
           </Button>
         </p>

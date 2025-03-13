@@ -296,7 +296,21 @@ export function ChatInterface() {
   }
 
   const handleSaveWorkout = async (workout: any) => {
-    if (!user) return
+    if (!user) {
+      // If user is not authenticated, show a message and add a delay before redirecting
+      setMessages(prev => [...prev, {
+        id: Date.now().toString(),
+        content: "To save your workout, you'll need to log in first. I'll take you to the login page.",
+        sender: 'bot',
+        timestamp: new Date()
+      }])
+      
+      // Navigate to the auth page after a short delay
+      setTimeout(() => {
+        router.push('/auth')
+      }, 2000)
+      return
+    }
     
     setIsLoading(true)
     try {

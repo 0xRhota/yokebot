@@ -11,11 +11,12 @@ export default function HomePage() {
   const router = useRouter()
   const { user, isLoading } = useUser()
 
-  useEffect(() => {
-    if (!isLoading && user) {
-      router.push('/chat')
-    }
-  }, [user, isLoading, router])
+  // Removing the automatic redirect to allow users to see the landing page
+  // useEffect(() => {
+  //   if (!isLoading && user) {
+  //     router.push('/chat')
+  //   }
+  // }, [user, isLoading, router])
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-3.5rem)]">
@@ -40,7 +41,7 @@ export default function HomePage() {
                 </Link>
                 <Link href="/auth">
                   <Button size="lg" variant="outline" className="gap-1">
-                    Sign Up
+                    Login
                   </Button>
                 </Link>
               </div>
