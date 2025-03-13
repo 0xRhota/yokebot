@@ -20,7 +20,8 @@ export async function middleware(req: NextRequest) {
     // If the user is not signed in and the route is not public, redirect to auth page
     const isAuthRoute = req.nextUrl.pathname.startsWith('/auth')
     const isApiRoute = req.nextUrl.pathname.startsWith('/api')
-    const isPublicRoute = isAuthRoute || isApiRoute || req.nextUrl.pathname === '/'
+    const isChatRoute = req.nextUrl.pathname.startsWith('/chat')
+    const isPublicRoute = isAuthRoute || isApiRoute || req.nextUrl.pathname === '/' || isChatRoute
 
     if (!session && !isPublicRoute) {
       const redirectUrl = new URL('/auth', req.url)
