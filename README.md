@@ -1,75 +1,107 @@
-# YokeBotUI
+# YokeBot - Conversational Workout Tracking
 
-YokeBotUI is a conversational workout tracking application that eliminates the friction traditionally associated with logging exercises. Using natural language processing, the app allows users to quickly record their workouts through a chat interface, similar to messaging a personal trainer.
+YokeBot is a modern web application that allows users to track their workouts through natural conversation. It provides a chat interface for logging workouts, visualizing progress, and getting personalized recommendations.
 
 ## Features
 
-- **Conversational Workout Logging**: Log your workouts using natural language
-- **Smart Workout Recognition**: The app learns your routine over time
-- **Adaptive Memory System**: Remembers your previous weights, sets, and reps
-- **Visual Progress Tracking**: Track your progress with intuitive visualizations
-- **AI-Powered Insights**: Get personalized recommendations based on your progress
+- **Chat Interface**: Log your workouts through natural conversation with YokeBot
+- **Workout Tracking**: Track your sets, reps, and weights with detailed history
+- **Progress Analytics**: Visualize your progress with charts and analytics
+- **No Login Required to Start**: Try the chat interface without creating an account
+- **Seamless Authentication**: Login only when you're ready to save your workouts
+
+## User Flow
+
+1. **Landing Page**: Users can click "Start Chatting" to immediately use the chat interface without logging in
+2. **Chat Interface**: Users can interact with YokeBot and log workouts
+3. **Authentication**: When users try to save a workout, they're prompted to log in or sign up
+4. **Dashboard**: After logging in, users can view their saved workouts and progress
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18.0.0 or higher
-- npm or yarn
+- Node.js 18+ and npm
+- Supabase account for authentication and database
 
 ### Installation
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/yokebot-app.git
-   cd yokebot-app
+   git clone https://github.com/yourusername/yokebot.git
+   cd yokebot/yokebot-app
    ```
 
 2. Install dependencies
    ```bash
    npm install
-   # or
-   yarn install
    ```
 
-3. Start the development server
+3. Create a `.env.local` file with your Supabase credentials
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+   ```
+
+4. Start the development server
    ```bash
    npm run dev
-   # or
-   yarn dev
    ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+## Testing
 
-## Tech Stack
+YokeBot includes a comprehensive test suite to ensure the application works correctly. The tests are written using Jest and React Testing Library.
 
-- **Frontend**: Next.js, React, TypeScript, Tailwind CSS
-- **State Management**: React Context API, React Hooks
-- **UI Components**: Radix UI, Framer Motion
-- **Backend**: Supabase (PostgreSQL, Authentication)
-- **AI/ML**: Natural language processing for workout parsing
+### Running Tests
 
-## Project Structure
-
-```
-yokebot-app/
-├── src/
-│   ├── app/              # Next.js App Router
-│   │   └── ...           # Feature components
-│   ├── lib/              # Utility functions
-│   ├── hooks/            # Custom React hooks
-│   └── types/            # TypeScript type definitions
-├── public/               # Static assets
-└── ...                   # Config files
+To run all tests:
+```bash
+npm test
 ```
 
-## Contributing
+To run tests in watch mode (useful during development):
+```bash
+npm run test:watch
+```
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+To run tests with coverage report:
+```bash
+npm run test:ci
+```
+
+### Test Structure
+
+- `src/__tests__/components/`: Tests for React components
+- `src/__tests__/lib/`: Tests for utility functions and hooks
+- `src/__tests__/pages/`: Tests for page components
+
+## Deployment
+
+YokeBot is configured for easy deployment to Vercel.
+
+### Pre-Deployment Checks
+
+Before deploying, you can run pre-deployment checks to ensure everything is working correctly:
+
+```bash
+npm run pre-deploy
+```
+
+This will:
+1. Check if the required environment variables are set
+2. Run linting to catch any code style issues
+3. Run tests to ensure functionality is working
+4. Build the application to check for build errors
+
+### Deploying to Vercel
+
+To deploy to Vercel:
+
+```bash
+npm run deploy
+```
+
+This will run the pre-deployment checks and then deploy the application to Vercel.
 
 ## License
 
